@@ -1,0 +1,155 @@
+<div class="perfume-list-container">
+  <!-- Header con filtros y carrito -->
+  <div class="header-section">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-12">
+          <h1 class="page-title">Catálogo de Perfumes</h1>
+          
+          <!-- Barra de búsqueda-->
+          <div class="search-cart-bar">
+            <div class="row align-items-center">
+              <div class="col-md-8">
+                <div class="search-box">
+                  <input 
+                    type="text" 
+                    class="form-control" 
+                    placeholder="Buscar perfumes..."
+                    [(ngModel)]="terminoBusqueda"
+                    (keyup)="aplicarFiltros()">
+                  <i class="fas fa-search search-icon"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sección de filtros -->
+  <div class="filters-section">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-lg-3 col-md-6 mb-3">
+          <label class="form-label">Categoría:</label>
+          <select 
+            class="form-select"
+            [(ngModel)]="filtroCategoria"
+            (change)="aplicarFiltros()">
+            <option *ngFor="let categoria of categorias" [value]="categoria">
+              {{ categoria }}
+            </option>
+          </select>
+        </div>
+        
+        <div class="col-lg-3 col-md-6 mb-3">
+          <label class="form-label">Marca:</label>
+          <select 
+            class="form-select"
+            [(ngModel)]="filtroMarca"
+            (change)="aplicarFiltros()">
+            <option *ngFor="let marca of marcas" [value]="marca">
+              {{ marca }}
+            </option>
+          </select>
+        </div>
+        
+        <div class="col-lg-3 col-md-6 mb-3">
+          <label class="form-label">Ordenar por:</label>
+          <select 
+            class="form-select"
+            [(ngModel)]="ordenarPor"
+            (change)="aplicarFiltros()">
+            <option *ngFor="let opcion of opcionesOrden" [value]="opcion.valor">
+              {{ opcion.texto }}
+            </option>
+          </select>
+        </div>
+        
+        <div class="col-lg-3 col-md-6 mb-3 d-flex align-items-end">
+          <button 
+            class="btn btn-secondary w-100"
+            (click)="filtroCategoria = 'Todos'; filtroMarca = 'Todas'; terminoBusqueda = ''; aplicarFiltros()">
+            <i class="fas fa-undo"></i> Limpiar Filtros
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Lista de perfumes -->
+  <div class="products-section">
+    <div class="container-fluid">
+      <!-- Mensaje si no hay resultados -->
+      <div *ngIf="perfumesFiltrados.length === 0" class="no-results">
+        <div class="text-center">
+          <i class="fas fa-search fa-3x text-muted mb-3"></i>
+          <h3>No se encontraron perfumes</h3>
+          <p class="text-muted">Intenta ajustar los filtros de búsqueda</p>
+        </div>
+      </div>
+
+      <!-- Grid de productos -->
+      <div class="row" *ngIf="perfumesFiltrados.length > 0">
+        <div 
+          class="col-xl-3 col-lg-4 col-md-6 col-sm-12 mb-4" 
+          *ngFor="let perfume of perfumesFiltrados">
+          <div class="product-card">
+            <!-- Badges -->
+            <div class="product-badges">
+              <span class="badge bg-success" *ngIf="perfume.esNuevo">Nuevo</span>
+              <span class="badge bg-danger" *ngIf="perfume.enOferta">
+                -{{ perfume.descuento }}%
+              </span>
+              <span class="badge bg-warning" *ngIf="perfume.stock < 10">
+                Pocas unidades
+              </span>
+            </div>
+
+            <!-- Imagen del producto -->
+            <div class="product-image">
+              <img 
+                [src]="perfume.imagen" 
+                [alt]="perfume.nombre"
+                onerror="this.src='assets/images/default-perfume.jpg'">
+            </div>
+
+            <!-- Información del producto -->
+            <div class="product-info">
+              <h5 class="product-title">{{ perfume.nombre }}</h5>
+              <p class="product-brand">{{ perfume.marca }}</p>
+              <p class="product-description">{{ perfume.descripcion }}</p>
+              
+              <!-- Rating -->
+              <div class="product-rating">
+                <span *ngFor="let estrella of obtenerEstrellas(perfume.rating)">
+                  <i class="fas fa-star" [class.text-warning]="estrella" [class.text-muted]="!estrella"></i>
+                </span>
+                <span class="rating-text">({{ perfume.rating }})</span>
+              </div>
+
+              <!-- Precio -->
+              <div class="product-price">
+                <span 
+                  class="price-original" 
+                  [class.text-decoration-line-through]="perfume.enOferta"
+                  *ngIf="perfume.enOferta">
+                  {{ formatearPrecio(perfume.precio) }}
+                </span>
+                <span class="price-current">
+                  {{ formatearPrecio(obtenerPrecioConDescuento(perfume)) }}
+                </span>
+              </div>
+
+              <!-- Stock -->
+              <div class="product-stock">
+                <small class="text-muted">Stock: {{ perfume.stock }} unidades</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
