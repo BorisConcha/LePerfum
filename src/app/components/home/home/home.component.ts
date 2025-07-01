@@ -9,7 +9,7 @@ import { Perfume } from '../../../models/perfume.model';
 @Component({
   selector: 'app-home',
   template: `
-    <div class="home-container">
+    <div class="container">
       <!-- Hero Section -->
       <section class="hero-section bg-gradient text-white py-5">
         <div class="container">
@@ -174,24 +174,7 @@ import { Perfume } from '../../../models/perfume.model';
         </div>
       </section>
     </div>
-  `,
-  styles: [`
-    .bg-gradient {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    }
-    .min-vh-50 {
-      min-height: 50vh;
-    }
-    .feature-icon {
-      margin-bottom: 1rem;
-    }
-    .card {
-      transition: transform 0.2s;
-    }
-    .card:hover {
-      transform: translateY(-5px);
-    }
-  `]
+  `
 })
 export class HomeComponent implements OnInit {
   featuredPerfumes: Perfume[] = [];
