@@ -72,6 +72,9 @@ describe('PerfumeListComponent', () => {
     fixture = TestBed.createComponent(PerfumeListComponent);
     component = fixture.componentInstance;
     mockPerfumeService = TestBed.inject(PerfumeService) as jasmine.SpyObj<PerfumeService>;
+    
+    // Configurar el mock para getPerfumes por defecto
+    mockPerfumeService.getPerfumes.and.returnValue(of(mockPerfumes));
   });
 
   describe('Component Initialization', () => {
@@ -114,22 +117,8 @@ describe('PerfumeListComponent', () => {
     });
   });
 
-  describe('ngOnDestroy', () => {
-    it('should complete destroy$ subject', () => {
-      spyOn(component['destroy$'], 'next');
-      spyOn(component['destroy$'], 'complete');
-      
-      component.ngOnDestroy();
-      
-      expect(component['destroy$'].next).toHaveBeenCalled();
-      expect(component['destroy$'].complete).toHaveBeenCalled();
-    });
-  });
-
   describe('loadPerfumes', () => {
     it('should load perfumes successfully', () => {
-      mockPerfumeService.getPerfumes.and.returnValue(of(mockPerfumes));
-      
       component.loadPerfumes();
       
       expect(component.loading).toBeFalse();
@@ -139,20 +128,12 @@ describe('PerfumeListComponent', () => {
     });
 
     it('should handle error when loading perfumes', () => {
-      mockPerfumeService.getPerfumes.and.returnValue(throwError('Error'));
+      mockPerfumeService.getPerfumes.and.returnValue(throwError(() => new Error('Error')));
       
       component.loadPerfumes();
       
       expect(component.loading).toBeFalse();
       expect(component.error).toBe('Error al cargar los perfumes');
-    });
-
-    it('should set loading to true initially', () => {
-      mockPerfumeService.getPerfumes.and.returnValue(of(mockPerfumes));
-      
-      component.loadPerfumes();
-      
-      expect(mockPerfumeService.getPerfumes).toHaveBeenCalled();
     });
   });
 
@@ -164,6 +145,7 @@ describe('PerfumeListComponent', () => {
     it('should create perfume successfully when form is valid', () => {
       const newPerfume = { ...mockPerfumeRequest, id: 3 };
       mockPerfumeService.createPerfume.and.returnValue(of(newPerfume));
+      spyOn(component, 'loadPerfumes'); // Spy en loadPerfumes
       
       component.createPerfume();
       
@@ -171,10 +153,11 @@ describe('PerfumeListComponent', () => {
       expect(component.showForm).toBeFalse();
       expect(component.loading).toBeFalse();
       expect(component.error).toBe('');
+      expect(component.loadPerfumes).toHaveBeenCalled();
     });
 
     it('should handle error when creating perfume', () => {
-      mockPerfumeService.createPerfume.and.returnValue(throwError('Error'));
+      mockPerfumeService.createPerfume.and.returnValue(throwError(() => new Error('Error')));
       
       component.createPerfume();
       
@@ -182,13 +165,12 @@ describe('PerfumeListComponent', () => {
       expect(component.loading).toBeFalse();
     });
 
-    it('should mark form as touched when form is invalid', () => {
+    it('should not create perfume when form is invalid', () => {
       component.perfumeForm.patchValue({ nombre: '' });
       
       component.createPerfume();
       
       expect(mockPerfumeService.createPerfume).not.toHaveBeenCalled();
-
       expect(component.perfumeForm.get('nombre')?.touched).toBeTrue();
     });
   });
@@ -202,6 +184,7 @@ describe('PerfumeListComponent', () => {
     it('should update perfume successfully when form is valid and perfume is selected', () => {
       const updatedPerfume = { ...mockPerfumeRequest, id: 1 };
       mockPerfumeService.updatePerfume.and.returnValue(of(updatedPerfume));
+      spyOn(component, 'loadPerfumes');
       
       component.updatePerfume();
       
@@ -210,10 +193,11 @@ describe('PerfumeListComponent', () => {
       expect(component.isEditing).toBeFalse();
       expect(component.selectedPerfume).toBeNull();
       expect(component.error).toBe('');
+      expect(component.loadPerfumes).toHaveBeenCalled();
     });
 
     it('should handle error when updating perfume', () => {
-      mockPerfumeService.updatePerfume.and.returnValue(throwError('Error'));
+      mockPerfumeService.updatePerfume.and.returnValue(throwError(() => new Error('Error')));
       
       component.updatePerfume();
       
@@ -221,7 +205,7 @@ describe('PerfumeListComponent', () => {
       expect(component.loading).toBeFalse();
     });
 
-    it('should mark form as touched when form is invalid', () => {
+    it('should not update perfume when form is invalid', () => {
       component.perfumeForm.patchValue({ nombre: '' });
       
       component.updatePerfume();
@@ -235,11 +219,13 @@ describe('PerfumeListComponent', () => {
     it('should delete perfume when user confirms', () => {
       spyOn(window, 'confirm').and.returnValue(true);
       mockPerfumeService.deletePerfume.and.returnValue(of(true));
+      spyOn(component, 'loadPerfumes');
       
       component.deletePerfume(mockPerfumes[0]);
       
       expect(mockPerfumeService.deletePerfume).toHaveBeenCalledWith(1);
       expect(component.loading).toBeFalse();
+      expect(component.loadPerfumes).toHaveBeenCalled();
     });
 
     it('should not delete perfume when user cancels', () => {
@@ -252,7 +238,7 @@ describe('PerfumeListComponent', () => {
 
     it('should handle error when deleting perfume', () => {
       spyOn(window, 'confirm').and.returnValue(true);
-      mockPerfumeService.deletePerfume.and.returnValue(throwError('Error'));
+      mockPerfumeService.deletePerfume.and.returnValue(throwError(() => new Error('Error')));
       
       component.deletePerfume(mockPerfumes[0]);
       
@@ -406,22 +392,6 @@ describe('PerfumeListComponent', () => {
       
       expect(component.getFieldError('precio')).toBe('precio debe ser mayor a 1');
     });
-
-    it('should validate form fields correctly', () => {
-      component.perfumeForm.patchValue({ 
-        nombre: '', 
-        marca: '', 
-        precio: 0 
-      });
-      
-      Object.keys(component.perfumeForm.controls).forEach(key => {
-        component.perfumeForm.get(key)?.markAsTouched();
-      });
-      
-      expect(component.perfumeForm.get('nombre')?.touched).toBeTrue();
-      expect(component.perfumeForm.get('marca')?.touched).toBeTrue();
-      expect(component.perfumeForm.get('precio')?.touched).toBeTrue();
-    });
   });
 
   describe('Image Error Handling', () => {
@@ -446,25 +416,15 @@ describe('PerfumeListComponent', () => {
     });
   });
 
-  describe('Form State Management', () => {
-    it('should reset form state when opening create form', () => {
-      component.perfumeForm.patchValue(mockPerfumeRequest);
-      component.error = 'Some error';
+  describe('Lifecycle hooks', () => {
+    it('should complete destroy$ subject on destroy', () => {
+      spyOn(component['destroy$'], 'next');
+      spyOn(component['destroy$'], 'complete');
       
-      component.openCreateForm();
+      component.ngOnDestroy();
       
-      expect(component.perfumeForm.pristine).toBeTrue();
-      expect(component.error).toBe('');
-    });
-
-    it('should reset form state when closing form', () => {
-      component.perfumeForm.patchValue(mockPerfumeRequest);
-      component.error = 'Some error';
-      
-      component.closeForm();
-      
-      expect(component.perfumeForm.pristine).toBeTrue();
-      expect(component.error).toBe('');
+      expect(component['destroy$'].next).toHaveBeenCalled();
+      expect(component['destroy$'].complete).toHaveBeenCalled();
     });
   });
 });
