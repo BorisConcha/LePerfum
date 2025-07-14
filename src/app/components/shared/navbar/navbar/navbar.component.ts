@@ -10,8 +10,8 @@ import { User } from '../../../../models/user.model';
 @Component({
   selector: 'app-navbar',
   template: `
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-      <div class="container-fluid">
+    <nav class="navbar navbar-expand-lg fixed-top">
+      <div class="container">
         <a class="navbar-brand fw-bold" routerLink="/">
           <i class="fas fa-spray-can me-2"></i>LePerfum
         </a>
@@ -20,7 +20,10 @@ import { User } from '../../../../models/user.model';
           class="navbar-toggler" 
           type="button" 
           data-bs-toggle="collapse" 
-          data-bs-target="#navbarNav">
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
 
@@ -60,30 +63,21 @@ import { User } from '../../../../models/user.model';
               </a>
             </li>
             <li class="nav-item dropdown" *ngIf="isAuthenticated">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 <i class="fas fa-user-circle me-1"></i>
                 {{ currentUser?.firstName }}
               </a>
               <ul class="dropdown-menu">
                 <li><a class="dropdown-item" routerLink="/profile">Mi Perfil</a></li>
                 <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="#" (click)="logout()">Cerrar Sesión</a></li>
+                <li><a class="dropdown-item" href="#" (click)="logout($event)">Cerrar Sesión</a></li>
               </ul>
             </li>
           </ul>
         </div>
       </div>
     </nav>
-  `,
-  styles: [`
-    .navbar-brand {
-      font-size: 1.5rem;
-    }
-    .nav-link.active {
-      font-weight: bold;
-      color: #fff !important;
-    }
-  `]
+  `
 })
 export class NavbarComponent implements OnInit {
   currentUser: User | null = null;
@@ -106,7 +100,8 @@ export class NavbarComponent implements OnInit {
   /**
    * Cierra la sesión del usuario
    */
-  logout(): void {
+  logout(event: Event): void {
+    event.preventDefault();
     this.authService.logout();
     this.router.navigate(['/']);
   }

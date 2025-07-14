@@ -29,10 +29,17 @@ body {
     background-color: var(--light-color);
     margin: 0;
     padding: 0;
+    padding-top: 0 !important;
+    margin-top: 0 !important;
 }
 
 html {
-    scroll-behavior: smooth;
+    scroll-behavior: smooth !important;
+}
+
+html, body {
+    overflow-x: hidden;
+    width: 100%;
 }
 
 /* Bootstrap overrides */
@@ -69,11 +76,12 @@ html {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    margin-top: 0 !important;
 }
 
 .content-wrapper {
     flex: 1;
-    padding-top: 80px;
+    padding-top: 0 !important;
 }
 
 /* ===== NAVBAR ===== */
@@ -84,16 +92,18 @@ html {
     position: fixed;
     top: 0;
     width: 100%;
-    z-index: 1000;
+    z-index: 1050 !important;
     padding: 0.5rem 0;
+    min-height: 70px;
+    transition: all 0.3s ease;
 }
 
 .navbar-brand {
-    font-weight: 700;
+    font-weight: 700 !important;
     color: var(--primary-color) !important;
-    font-size: 1.8rem;
-    text-decoration: none;
-    transition: color 0.3s ease;
+    font-size: 1.8rem !important;
+    text-decoration: none !important;
+    transition: color 0.3s ease !important;
 }
 
 .navbar-brand:hover {
@@ -102,35 +112,48 @@ html {
 
 .navbar-nav .nav-link {
     color: var(--dark-color) !important;
-    font-weight: 500;
+    font-weight: 500 !important;
     padding: 0.5rem 1rem !important;
-    transition: color 0.3s ease;
+    transition: color 0.3s ease !important;
+    border-bottom: none !important;
+    text-decoration: none !important;
 }
 
 .navbar-nav .nav-link:hover {
     color: var(--primary-color) !important;
 }
 
+.navbar-nav .nav-link.active {
+    color: var(--primary-color) !important;
+    background-color: transparent !important;
+    border-bottom: none !important;
+}
+
 .navbar-toggler {
-    border: none;
-    outline: none;
+    border: none !important;
+    outline: none !important;
 }
 
 .navbar-toggler:focus {
-    box-shadow: none;
+    box-shadow: none !important;
+}
+
+.navbar-collapse {
+    justify-content: space-between;
 }
 
 /* ===== HERO SECTION ===== */
 .hero-section {
-    background: linear-gradient(135deg, rgba(99, 102, 241, 0.9), rgba(139, 92, 246, 0.9));
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.9), rgba(139, 92, 246, 0.9)) !important;
     color: white !important;
-    padding: 120px 0 80px;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-    min-height: 60vh;
-    display: flex;
-    align-items: center;
+    padding: 100px 0 80px !important;
+    text-align: center !important;
+    position: relative !important;
+    overflow: hidden !important;
+    min-height: 100vh !important;
+    display: flex !important;
+    align-items: center !important;
+    margin-top: 0 !important;
 }
 
 .hero-section * {
@@ -153,6 +176,9 @@ html {
     position: relative;
     z-index: 2;
     width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
 }
 
 .hero-title {
@@ -678,91 +704,61 @@ html {
     }
 }
 
+@media (max-width: 992px) {
+    .hero-section {
+        padding: 90px 0 70px !important;
+        min-height: 90vh !important;
+    }
+    .navbar-nav {
+        text-align: center;
+        padding: 1rem 0;
+    }
+    
+    .navbar-nav .nav-link {
+        padding: 0.75rem 1rem !important;
+    }
+}
+
 @media (max-width: 768px) {
     .hero-section {
-        padding: 100px 0 60px;
+        padding: 80px 0 60px !important;
+        min-height: 80vh !important;
+    }
+    
+    .navbar {
+        min-height: 60px;
     }
     
     .hero-title {
-        font-size: 2.5rem;
+        font-size: 2.2rem !important;
+        margin-bottom: 1rem !important;
     }
     
     .hero-subtitle {
-        font-size: 1rem;
-    }
-    
-    .search-form {
-        flex-direction: column;
-        gap: 1rem;
-    }
-    
-    .search-input {
-        width: 100%;
-    }
-    
-    .search-btn {
-        width: 100%;
-    }
-    
-    .features-grid {
-        grid-template-columns: 1fr;
-    }
-    
-    .products-grid {
-        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-        gap: 1.5rem;
-    }
-    
-    .section-title {
-        font-size: 2rem;
-    }
-    
-    .navbar-nav {
-        text-align: center;
-        padding-top: 1rem;
+        font-size: 1rem !important;
+        margin-bottom: 2rem !important;
     }
 }
 
 @media (max-width: 576px) {
-    .content-wrapper {
-        padding-top: 70px;
+    .navbar {
+        padding: 0.25rem 0 !important;
+        min-height: 60px !important;
+    }
+    
+    .hero-section {
+        padding: 70px 0 50px !important;
+        min-height: 70vh !important;
     }
     
     .hero-title {
-        font-size: 2rem;
+        font-size: 1.8rem !important;
     }
     
     .hero-subtitle {
-        font-size: 0.9rem;
-    }
-    
-    .main-section {
-        padding: 40px 0;
-    }
-    
-    .section-title {
-        font-size: 1.8rem;
-    }
-    
-    .feature-card,
-    .product-card {
-        margin-bottom: 1.5rem;
-    }
-    
-    .product-info {
-        padding: 1rem;
-    }
-    
-    .products-grid {
-        grid-template-columns: 1fr;
-        gap: 1rem;
-    }
-    
-    .container {
-        padding: 0 15px;
+        font-size: 0.9rem !important;
     }
 }
-
 /* ===== ESTADOS DE HOVER MEJORADOS ===== */
 .product-card,
 .feature-card {
@@ -1029,8 +1025,42 @@ body {
     font-weight: 900;
 }
 
-/* Prevenir flash of unstyled content */
 .hero-section * {
     opacity: 1 !important;
     visibility: visible !important;
+}
+
+.navbar .container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.navbar.navbar-dark {
+    background: rgba(255, 255, 255, 0.95) !important;
+}
+
+.navbar.bg-dark {
+    background: rgba(255, 255, 255, 0.95) !important;
+}
+
+.navbar ~ * {
+    margin-top: 0 !important;
+}
+
+.dropdown-menu {
+    border: none;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    padding: 0.5rem 0;
+}
+
+.dropdown-item {
+    padding: 0.5rem 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.dropdown-item:hover {
+    background-color: var(--gray-100);
+    color: var(--primary-color);
 }

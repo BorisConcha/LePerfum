@@ -12,23 +12,16 @@ import { Perfume } from '../../../models/perfume.model';
     <div class="main-container">
       <!-- Hero Section -->
       <section class="hero-section">
-        <div class="container">
-          <div class="hero-content">
-            <h1 class="hero-title">
-              Descubre tu fragancia perfecta
-            </h1>
-            <p class="hero-subtitle">
-              Explora nuestra exclusiva colección de perfumes de las mejores marcas del mundo. 
-              Desde fragancias clásicas hasta las últimas tendencias.
-            </p>
-            <div class="hero-buttons">
-              <a routerLink="/perfumes" class="hero-btn primary">
-                Ver Catálogo
-              </a>
-              <a routerLink="/register" class="hero-btn">
-                Únete Ahora
-              </a>
-            </div>
+        <div class="hero-content">
+          <h1 class="hero-title">Descubre tu fragancia perfecta</h1>
+          <p class="hero-subtitle">
+            Explora nuestra exclusiva colección de perfumes de las mejores marcas del mundo. 
+            Desde fragancias clásicas hasta las últimas tendencias.
+          </p>
+          
+          <div class="hero-buttons">
+            <a routerLink="/perfumes" class="hero-btn primary">Ver Catálogo</a>
+            <a routerLink="/register" class="hero-btn">Únete Ahora</a>
           </div>
         </div>
       </section>

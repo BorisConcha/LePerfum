@@ -7,24 +7,13 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'app-root',
   template: `
-    <div class="app-container">
+    <div class="main-container">
       <app-navbar></app-navbar>
-      <main class="main-content">
+      <div class="content-wrapper">
         <router-outlet></router-outlet>
-      </main>
+      </div>
     </div>
-  `,
-  styles: [`
-    .app-container {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
-    .main-content {
-      flex: 1;
-      padding-top: 70px;
-    }
-  `]
+  `
 })
 export class AppComponent {
   title = 'LePerfum';
