@@ -19,6 +19,8 @@ export interface PerfumeRequest {
   categoria: 'Masculino' | 'Femenino' | 'Unisex';
   imagen: string;
   stock: number;
+  fechaCreacion: string;
+  rating: number;
 }
 
 export interface ApiResponse {
