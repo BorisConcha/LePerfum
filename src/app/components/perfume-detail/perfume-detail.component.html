@@ -1,0 +1,78 @@
+<div class="detail-container">
+  <!-- Loading -->
+  <div *ngIf="loading" class="loading">
+    <div class="spinner"></div>
+    <p>Cargando perfume...</p>
+  </div>
+
+  <!-- Error -->
+  <div *ngIf="error" class="error-message">
+    <h2>Error</h2>
+    <p>{{ error }}</p>
+    <button class="btn btn-primary" (click)="goBack()">Volver</button>
+  </div>
+
+  <!-- Detalle del perfume -->
+  <div *ngIf="perfume && !loading" class="perfume-detail">
+    <div class="detail-header">
+      <button class="btn btn-secondary" (click)="goBack()">
+        ← Volver a la lista
+      </button>
+      <h1>{{ perfume.nombre }}</h1>
+    </div>
+
+    <div class="detail-content">
+      <div class="perfume-image">
+        <img 
+          [src]="perfume.imagen" 
+          [alt]="perfume.nombre"
+          (error)="$event.target.src='assets/images/default-perfume.jpg'"
+        >
+      </div>
+
+      <div class="perfume-info">
+        <div class="info-section">
+          <h2>Información General</h2>
+          <div class="info-grid">
+            <div class="info-item">
+              <label>Marca:</label>
+              <span>{{ perfume.marca }}</span>
+            </div>
+            <div class="info-item">
+              <label>Precio:</label>
+              <span class="price">${{ perfume.precio | number }}</span>
+            </div>
+            <div class="info-item">
+              <label>Categoría:</label>
+              <span class="category">{{ perfume.categoria }}</span>
+            </div>
+            <div class="info-item">
+              <label>Stock:</label>
+              <span class="stock" [class.low-stock]="perfume.stock < 10">
+                {{ perfume.stock }} unidades
+              </span>
+            </div>
+            <div class="info-item">
+              <label>Fecha de Creación:</label>
+              <span>{{ perfume.fechaCreacion | date:'dd/MM/yyyy' }}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="info-section">
+          <h2>Descripción</h2>
+          <p class="description">{{ perfume.descripcion }}</p>
+        </div>
+
+        <div class="actions">
+          <button class="btn btn-primary" (click)="goBack()">
+            Editar Perfume
+          </button>
+          <button class="btn btn-danger" (click)="deletePerfume()">
+            Eliminar Perfume
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

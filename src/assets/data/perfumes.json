@@ -1,0 +1,64 @@
+{
+  "perfumes": [
+    {
+      "id": 1,
+      "nombre": "Chanel N°5",
+      "marca": "Chanel",
+      "precio": 150000,
+      "descripcion": "Un clásico atemporal con notas florales y aldehídos",
+      "categoria": "Femenino",
+      "imagen": "assets/images/default-perfume.webp",
+      "stock": 25,
+      "fechaCreacion": "2024-01-15",
+      "rating": 4.5
+    },
+    {
+      "id": 2,
+      "nombre": "Dior Sauvage",
+      "marca": "Dior",
+      "precio": 120000,
+      "descripcion": "Fragancia masculina fresca y especiada",
+      "categoria": "Masculino",
+      "imagen": "assets/images/default-perfume.webp",
+      "stock": 30,
+      "fechaCreacion": "2024-01-20",
+      "rating": 4.5
+    },
+    {
+      "id": 3,
+      "nombre": "Tom Ford Black Orchid",
+      "marca": "Tom Ford",
+      "precio": 200000,
+      "descripcion": "Fragancia unisex sofisticada y misteriosa",
+      "categoria": "Unisex",
+      "imagen": "assets/images/default-perfume.webp",
+      "stock": 15,
+      "fechaCreacion": "2024-02-01",
+      "rating": 4.5
+    },
+    {
+      "id": 4,
+      "nombre": "Versace Eros",
+      "marca": "Versace",
+      "precio": 90000,
+      "descripcion": "Fragancia masculina vibrante y seductora",
+      "categoria": "Masculino",
+      "imagen": "assets/images/default-perfume.webp",
+      "stock": 20,
+      "fechaCreacion": "2024-02-10",
+      "rating": 4.5
+    },
+    {
+      "id": 5,
+      "nombre": "Lancôme La Vie Est Belle",
+      "marca": "Lancôme",
+      "precio": 110000,
+      "descripcion": "Fragancia femenina dulce y floral",
+      "categoria": "Femenino",
+      "imagen": "assets/images/default-perfume.webp",
+      "stock": 22,
+      "fechaCreacion": "2024-02-15",
+      "rating": 4.5
+    }
+  ]
+}

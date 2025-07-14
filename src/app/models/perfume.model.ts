@@ -1,12 +1,26 @@
 export interface Perfume {
-  id: string;
-  name: string;
-  brand: string;
-  description: string;
-  price: number;
-  image: string;
-  category: 'masculine' | 'feminine' | 'unisex';
-  fragrance: string[];
-  inStock: boolean;
+  id: number;
+  nombre: string;
+  marca: string;
+  precio: number;
+  descripcion: string;
+  categoria: 'Masculino' | 'Femenino' | 'Unisex';
+  imagen: string;
+  stock: number;
+  fechaCreacion: string;
   rating: number;
+}
+
+export interface PerfumeRequest {
+  nombre: string;
+  marca: string;
+  precio: number;
+  descripcion: string;
+  categoria: 'Masculino' | 'Femenino' | 'Unisex';
+  imagen: string;
+  stock: number;
+}
+
+export interface ApiResponse {
+  perfumes: Perfume[];
 }

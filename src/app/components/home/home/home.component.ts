@@ -78,13 +78,13 @@ import { Perfume } from '../../../models/perfume.model';
             <div class="product-card" *ngFor="let perfume of featuredPerfumes">
               <div class="product-image">
                 <img 
-                  [src]="perfume.image" 
-                  [alt]="perfume.name">
+                  [src]="perfume.imagen" 
+                  [alt]="perfume.nombre">
               </div>
               <div class="product-info">
-                <h5 class="product-title">{{ perfume.name }}</h5>
-                <p class="product-brand">{{ perfume.brand }}</p>
-                <p class="product-price">{{ perfume.price }}</p>
+                <h5 class="product-title">{{ perfume.nombre }}</h5>
+                <p class="product-brand">{{ perfume.marca }}</p>
+                <p class="product-price">{{ perfume.precio }}</p>
                 
                 <div class="product-actions">
                   <div class="product-rating">
@@ -144,7 +144,7 @@ export class HomeComponent implements OnInit {
    * Carga los perfumes destacados
    */
   private loadFeaturedPerfumes(): void {
-    this.perfumeService.getAllPerfumes().subscribe(perfumes => {
+    this.perfumeService.getPerfumes().subscribe(perfumes => {
       this.featuredPerfumes = perfumes.slice(0, 3);
     });
   }

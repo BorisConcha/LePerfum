@@ -1,155 +1,229 @@
-<div class="perfume-list-container">
-  <!-- Header con filtros-->
-  <div class="header-section">
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-12">
-          <h1 class="page-title">Catálogo de Perfumes</h1>
-          
-          <!-- Barra de búsqueda-->
-          <div class="search-cart-bar">
-            <div class="row align-items-center">
-              <div class="col-md-8">
-                <div class="search-box">
-                  <input 
-                    type="text" 
-                    class="form-control" 
-                    placeholder="Buscar perfumes..."
-                    [(ngModel)]="terminoBusqueda"
-                    (keyup)="aplicarFiltros()">
-                  <i class="fas fa-search search-icon"></i>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+<div class="perfume-container">
+  <h1>Gestión de Perfumes</h1>
+
+  <!-- Mensajes de error -->
+  <div *ngIf="error" class="alert alert-danger">
+    {{ error }}
+  </div>
+
+  <!-- Controles superiores -->
+  <div class="controls-section">
+    <div class="search-filters">
+      <!-- Búsqueda -->
+      <div class="search-group">
+        <input 
+          type="text" 
+          [(ngModel)]="searchTerm" 
+          (input)="onSearch()" 
+          placeholder="Buscar perfumes..."
+          class="search-input"
+        >
+      </div>
+
+      <!-- Filtro por categoría -->
+      <div class="filter-group">
+        <select 
+          [(ngModel)]="selectedCategory" 
+          (change)="onCategoryFilter()" 
+          class="filter-select"
+        >
+          <option value="">Todas las categorías</option>
+          <option *ngFor="let categoria of categorias" [value]="categoria">
+            {{ categoria }}
+          </option>
+        </select>
+      </div>
+
+      <!-- Botones -->
+      <div class="button-group">
+        <button 
+          class="btn btn-primary" 
+          (click)="openCreateForm()" 
+          [disabled]="loading"
+        >
+          Agregar Perfume
+        </button>
+        <button 
+          class="btn btn-secondary" 
+          (click)="clearFilters()"
+        >
+          Limpiar Filtros
+        </button>
       </div>
     </div>
   </div>
 
-  <!-- Sección de filtros -->
-  <div class="filters-section">
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-lg-3 col-md-6 mb-3">
-          <label class="form-label">Categoría:</label>
+  <!-- Loading spinner -->
+  <div *ngIf="loading" class="loading">
+    <div class="spinner"></div>
+    <p>Cargando...</p>
+  </div>
+
+  <!-- Formulario modal -->
+  <div *ngIf="showForm" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>{{ isEditing ? 'Editar Perfume' : 'Agregar Nuevo Perfume' }}</h2>
+        <button class="btn-close" (click)="closeForm()">×</button>
+      </div>
+
+      <form [formGroup]="perfumeForm" (ngSubmit)="onSubmit()" class="perfume-form">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="nombre">Nombre *</label>
+            <input 
+              type="text" 
+              id="nombre" 
+              formControlName="nombre" 
+              [class.invalid]="isFieldInvalid('nombre')"
+            >
+            <div *ngIf="isFieldInvalid('nombre')" class="error-message">
+              {{ getFieldError('nombre') }}
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="marca">Marca *</label>
+            <input 
+              type="text" 
+              id="marca" 
+              formControlName="marca"
+              [class.invalid]="isFieldInvalid('marca')"
+            >
+            <div *ngIf="isFieldInvalid('marca')" class="error-message">
+              {{ getFieldError('marca') }}
+            </div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="precio">Precio *</label>
+            <input 
+              type="number" 
+              id="precio" 
+              formControlName="precio"
+              [class.invalid]="isFieldInvalid('precio')"
+            >
+            <div *ngIf="isFieldInvalid('precio')" class="error-message">
+              {{ getFieldError('precio') }}
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="stock">Stock *</label>
+            <input 
+              type="number" 
+              id="stock" 
+              formControlName="stock"
+              [class.invalid]="isFieldInvalid('stock')"
+            >
+            <div *ngIf="isFieldInvalid('stock')" class="error-message">
+              {{ getFieldError('stock') }}
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="categoria">Categoría *</label>
           <select 
-            class="form-select"
-            [(ngModel)]="filtroCategoria"
-            (change)="aplicarFiltros()">
+            id="categoria" 
+            formControlName="categoria"
+            [class.invalid]="isFieldInvalid('categoria')"
+          >
+            <option value="">Seleccionar categoría</option>
             <option *ngFor="let categoria of categorias" [value]="categoria">
               {{ categoria }}
             </option>
           </select>
+          <div *ngIf="isFieldInvalid('categoria')" class="error-message">
+            {{ getFieldError('categoria') }}
+          </div>
         </div>
-        
-        <div class="col-lg-3 col-md-6 mb-3">
-          <label class="form-label">Marca:</label>
-          <select 
-            class="form-select"
-            [(ngModel)]="filtroMarca"
-            (change)="aplicarFiltros()">
-            <option *ngFor="let marca of marcas" [value]="marca">
-              {{ marca }}
-            </option>
-          </select>
+
+        <div class="form-group">
+          <label for="imagen">URL de Imagen *</label>
+          <input 
+            type="url" 
+            id="imagen" 
+            formControlName="imagen"
+            [class.invalid]="isFieldInvalid('imagen')"
+          >
+          <div *ngIf="isFieldInvalid('imagen')" class="error-message">
+            {{ getFieldError('imagen') }}
+          </div>
         </div>
-        
-        <div class="col-lg-3 col-md-6 mb-3">
-          <label class="form-label">Ordenar por:</label>
-          <select 
-            class="form-select"
-            [(ngModel)]="ordenarPor"
-            (change)="aplicarFiltros()">
-            <option *ngFor="let opcion of opcionesOrden" [value]="opcion.valor">
-              {{ opcion.texto }}
-            </option>
-          </select>
+
+        <div class="form-group">
+          <label for="descripcion">Descripción *</label>
+          <textarea 
+            id="descripcion" 
+            formControlName="descripcion" 
+            rows="3"
+            [class.invalid]="isFieldInvalid('descripcion')"
+          ></textarea>
+          <div *ngIf="isFieldInvalid('descripcion')" class="error-message">
+            {{ getFieldError('descripcion') }}
+          </div>
         </div>
-        
-        <div class="col-lg-3 col-md-6 mb-3 d-flex align-items-end">
+
+        <div class="form-actions">
           <button 
-            class="btn btn-secondary w-100"
-            (click)="filtroCategoria = 'Todos'; filtroMarca = 'Todas'; terminoBusqueda = ''; aplicarFiltros()">
-            <i class="fas fa-undo"></i> Limpiar Filtros
+            type="button" 
+            class="btn btn-secondary" 
+            (click)="closeForm()"
+          >
+            Cancelar
+          </button>
+          <button 
+            type="submit" 
+            class="btn btn-primary" 
+            [disabled]="perfumeForm.invalid || loading"
+          >
+            {{ isEditing ? 'Actualizar' : 'Crear' }} Perfume
           </button>
         </div>
-      </div>
+      </form>
     </div>
   </div>
 
   <!-- Lista de perfumes -->
-  <div class="products-section">
-    <div class="container-fluid">
-      <!-- Mensaje si no hay resultados -->
-      <div *ngIf="perfumesFiltrados.length === 0" class="no-results">
-        <div class="text-center">
-          <i class="fas fa-search fa-3x text-muted mb-3"></i>
-          <h3>No se encontraron perfumes</h3>
-          <p class="text-muted">Intenta ajustar los filtros de búsqueda</p>
-        </div>
+  <div class="perfumes-grid">
+    <div *ngFor="let perfume of filteredPerfumes" class="perfume-card">
+      <div class="perfume-image">
+        <img [src]="perfume.imagen" [alt]="perfume.nombre" (error)="$event.target.src='assets/images/default-perfume.jpg'">
       </div>
-
-      <!-- Grid de productos -->
-      <div class="row" *ngIf="perfumesFiltrados.length > 0">
-        <div 
-          class="col-xl-3 col-lg-4 col-md-6 col-sm-12 mb-4" 
-          *ngFor="let perfume of perfumesFiltrados">
-          <div class="product-card">
-            <!-- Badges -->
-            <div class="product-badges">
-              <span class="badge bg-success" *ngIf="perfume.esNuevo">Nuevo</span>
-              <span class="badge bg-danger" *ngIf="perfume.enOferta">
-                -{{ perfume.descuento }}%
-              </span>
-              <span class="badge bg-warning" *ngIf="perfume.stock < 10">
-                Pocas unidades
-              </span>
-            </div>
-
-            <!-- Imagen del producto -->
-            <div class="product-image">
-              <img 
-                [src]="perfume.imagen" 
-                [alt]="perfume.nombre"
-                onerror="this.src='assets/images/default-perfume.webp'">
-            </div>
-
-            <!-- Información del producto -->
-            <div class="product-info">
-              <h5 class="product-title">{{ perfume.nombre }}</h5>
-              <p class="product-brand">{{ perfume.marca }}</p>
-              <p class="product-description">{{ perfume.descripcion }}</p>
-              
-              <!-- Rating -->
-              <div class="product-rating">
-                <span *ngFor="let estrella of obtenerEstrellas(perfume.rating)">
-                  <i class="fas fa-star" [class.text-warning]="estrella" [class.text-muted]="!estrella"></i>
-                </span>
-                <span class="rating-text">({{ perfume.rating }})</span>
-              </div>
-
-              <!-- Precio -->
-              <div class="product-price">
-                <span 
-                  class="price-original" 
-                  [class.text-decoration-line-through]="perfume.enOferta"
-                  *ngIf="perfume.enOferta">
-                  {{ formatearPrecio(perfume.precio) }}
-                </span>
-                <span class="price-current">
-                  {{ formatearPrecio(obtenerPrecioConDescuento(perfume)) }}
-                </span>
-              </div>
-
-              <!-- Stock -->
-              <div class="product-stock">
-                <small class="text-muted">Stock: {{ perfume.stock }} unidades</small>
-              </div>
-            </div>
-          </div>
-        </div>
+      
+      <div class="perfume-info">
+        <h3>{{ perfume.nombre }}</h3>
+        <p class="marca">{{ perfume.marca }}</p>
+        <p class="precio">${{ perfume.precio | number }}</p>
+        <p class="categoria">{{ perfume.categoria }}</p>
+        <p class="stock">Stock: {{ perfume.stock }}</p>
+        <p class="descripcion">{{ perfume.descripcion }}</p>
+      </div>
+      
+      <div class="perfume-actions">
+        <button 
+          class="btn btn-edit" 
+          (click)="openEditForm(perfume)"
+          [disabled]="loading"
+        >
+          Editar
+        </button>
+        <button 
+          class="btn btn-delete" 
+          (click)="deletePerfume(perfume)"
+          [disabled]="loading"
+        >
+          Eliminar
+        </button>
       </div>
     </div>
+  </div>
+
+  <!-- Mensaje cuando no hay perfumes -->
+  <div *ngIf="filteredPerfumes.length === 0 && !loading" class="no-results">
+    <p>No se encontraron perfumes.</p>
   </div>
 </div>
