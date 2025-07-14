@@ -191,7 +191,7 @@
   <div class="perfumes-grid">
     <div *ngFor="let perfume of filteredPerfumes" class="perfume-card">
       <div class="perfume-image">
-        <img [src]="perfume.imagen" [alt]="perfume.nombre" (error)="$event.target.src='assets/images/default-perfume.jpg'">
+        <img [src]="perfume.imagen" [alt]="perfume.nombre" (error)="onImageError($event)">
       </div>
       
       <div class="perfume-info">

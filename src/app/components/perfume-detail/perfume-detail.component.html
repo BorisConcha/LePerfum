@@ -18,15 +18,15 @@
       <button class="btn btn-secondary" (click)="goBack()">
         ← Volver a la lista
       </button>
-      <h1>{{ perfume.nombre }}</h1>
+      <h1>{{ perfume?.nombre }}</h1>
     </div>
 
     <div class="detail-content">
       <div class="perfume-image">
         <img 
-          [src]="perfume.imagen" 
-          [alt]="perfume.nombre"
-          (error)="$event.target.src='assets/images/default-perfume.jpg'"
+          [src]="perfume?.imagen" 
+          [alt]="perfume?.nombre"
+          (error)="onImageError($event)"
         >
       </div>
 
@@ -36,32 +36,32 @@
           <div class="info-grid">
             <div class="info-item">
               <label>Marca:</label>
-              <span>{{ perfume.marca }}</span>
+              <span>{{ perfume?.marca }}</span>
             </div>
             <div class="info-item">
               <label>Precio:</label>
-              <span class="price">${{ perfume.precio | number }}</span>
+              <span class="price">${{ perfume?.precio}}</span>
             </div>
             <div class="info-item">
               <label>Categoría:</label>
-              <span class="category">{{ perfume.categoria }}</span>
+              <span class="category">{{ perfume?.categoria }}</span>
             </div>
             <div class="info-item">
               <label>Stock:</label>
-              <span class="stock" [class.low-stock]="perfume.stock < 10">
-                {{ perfume.stock }} unidades
+              <span class="stock" [class.low-stock]="(perfume?.stock || 0) < 10">
+                {{ perfume?.stock }} unidades
               </span>
             </div>
             <div class="info-item">
               <label>Fecha de Creación:</label>
-              <span>{{ perfume.fechaCreacion | date:'dd/MM/yyyy' }}</span>
+              <span>{{ perfume?.fechaCreacion}}</span>
             </div>
           </div>
         </div>
 
         <div class="info-section">
           <h2>Descripción</h2>
-          <p class="description">{{ perfume.descripcion }}</p>
+          <p class="description">{{ perfume?.descripcion }}</p>
         </div>
 
         <div class="actions">

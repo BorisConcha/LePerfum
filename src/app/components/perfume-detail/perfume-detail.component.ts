@@ -11,8 +11,8 @@ import { Perfume } from '../../models/perfume.model';
 })
 export class PerfumeDetailComponent implements OnInit, OnDestroy {
   perfume: Perfume | null = null;
-  loading: boolean = true;
-  error: string = '';
+  loading = false;
+  error: string | null = null;
   
   private destroy$ = new Subject<void>();
 
@@ -32,32 +32,55 @@ export class PerfumeDetailComponent implements OnInit, OnDestroy {
   }
 
   private loadPerfume(): void {
+    this.loading = true;
     const id = Number(this.route.snapshot.paramMap.get('id'));
     
-    if (isNaN(id)) {
-      this.error = 'ID de perfume inválido';
+    if (id) {
+        this.perfumeService.getPerfumeById(id)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe({
+            next: (perfume) => {
+            if (perfume) {
+                this.perfume = perfume;
+            } else {
+                this.error = 'Perfume no encontrado';
+            }
+            this.loading = false;
+            },
+            error: (error) => {
+            this.error = 'Error al cargar el perfume';
+            this.loading = false;
+            console.error('Error:', error);
+            }
+        });
+        setTimeout(() => {
+            this.perfume = {
+            id: +id,
+            nombre: 'Perfume de ejemplo',
+            marca: 'Marca ejemplo',
+            precio: 50.00,
+            categoria: 'Unisex',
+            stock: 15,
+            imagen: 'assets/images/default-perfume.jpg',
+            descripcion: 'Descripción del perfume de ejemplo',
+            fechaCreacion: "2024-01-15",
+            rating: 5
+            };
+            this.loading = false;
+        }, 1000);
+    } else {
+      this.error = 'ID de perfume no válido';
       this.loading = false;
-      return;
     }
 
-    this.perfumeService.getPerfumeById(id)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe({
-        next: (perfume) => {
-          if (perfume) {
-            this.perfume = perfume;
-          } else {
-            this.error = 'Perfume no encontrado';
-          }
-          this.loading = false;
-        },
-        error: (error) => {
-          this.error = 'Error al cargar el perfume';
-          this.loading = false;
-          console.error('Error:', error);
-        }
-      });
   }
+
+    onImageError(event: Event): void {
+        const target = event.target as HTMLImageElement;
+        if (target) {
+          target.src = 'assets/images/default-perfume.jpg';
+        }
+    }
 
   goBack(): void {
     this.router.navigate(['/perfumes']);

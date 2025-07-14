@@ -246,5 +246,12 @@ export class PerfumeListComponent implements OnInit, OnDestroy {
     }
     return '';
   }
+
+  onImageError(event: Event): void {
+    const target = event.target as HTMLImageElement;
+    if (target) {
+      target.src = 'assets/images/default-perfume.jpg';
+    }
+  }
 }
 

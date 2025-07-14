@@ -18,6 +18,7 @@ import { AuthGuard } from './guards/auth.guard';
 import { AdminGuard } from './guards/admin.guard';
 
 import { PerfumeService } from './services/perfume.service';
+import { CommonModule } from '@angular/common';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -47,6 +48,7 @@ const routes: Routes = [
     AppRoutingModule,
     HttpClientModule,
     ReactiveFormsModule,
+    CommonModule,
     RouterModule.forRoot(routes),
     FormsModule
   ],
