@@ -73,7 +73,7 @@ html {
 
 .content-wrapper {
     flex: 1;
-    padding-top: 80px; /* Espacio para navbar fijo */
+    padding-top: 80px;
 }
 
 /* ===== NAVBAR ===== */
@@ -829,4 +829,208 @@ html {
         box-shadow: none;
         border: 1px solid #ccc;
     }
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+@media (min-width: 576px) {
+    .container {
+        max-width: 540px;
+    }
+}
+
+@media (min-width: 768px) {
+    .container {
+        max-width: 720px;
+    }
+}
+
+@media (min-width: 992px) {
+    .container {
+        max-width: 960px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .container {
+        max-width: 1140px;
+    }
+}
+
+/* Fixes para el hero section */
+.hero-section {
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.9), rgba(139, 92, 246, 0.9)) !important;
+    color: white !important;
+    padding: 120px 0 80px !important;
+    text-align: center !important;
+    position: relative !important;
+    overflow: hidden !important;
+    min-height: 60vh !important;
+    display: flex !important;
+    align-items: center !important;
+}
+
+/* Asegurar que todo el texto en hero sea blanco */
+.hero-section,
+.hero-section *,
+.hero-section h1,
+.hero-section h2,
+.hero-section h3,
+.hero-section p,
+.hero-section span {
+    color: white !important;
+}
+
+/* Rating styles */
+.rating-text {
+    margin-left: 8px;
+    font-size: 0.9rem;
+    color: var(--gray-500);
+}
+
+/* Mejor spacing para product actions */
+.product-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+/* Mejoras en el grid de productos */
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+}
+
+/* Fix para imágenes de productos */
+.product-image img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+/* Loading state mejorado */
+.loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 3rem;
+    min-height: 200px;
+}
+
+.spinner {
+    border: 4px solid var(--gray-200);
+    border-top: 4px solid var(--primary-color);
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+}
+
+/* Transition suave para evitar FOUC */
+.main-container {
+    opacity: 0;
+    animation: fadeIn 0.5s ease-in-out forwards;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* Asegurar que el navbar no interfiera */
+body {
+    padding-top: 0 !important;
+}
+
+/* Fix para responsive en móviles */
+@media (max-width: 768px) {
+    .hero-section {
+        padding: 80px 0 60px !important;
+        min-height: 50vh !important;
+    }
+    
+    .hero-title {
+        font-size: 2.2rem !important;
+    }
+    
+    .hero-subtitle {
+        font-size: 1rem !important;
+    }
+    
+    .hero-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .hero-btn {
+        width: 100%;
+        max-width: 250px;
+    }
+    
+    .products-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+}
+
+/* Mejoras en los botones */
+.hero-btn {
+    background: rgba(255, 255, 255, 0.1);
+    color: white !important;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    padding: 12px 32px;
+    border-radius: 50px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    display: inline-block;
+    min-width: 160px;
+}
+
+.hero-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.5);
+    transform: translateY(-2px);
+    color: white !important;
+    text-decoration: none;
+}
+
+.hero-btn.primary {
+    background: var(--accent-color);
+    border-color: var(--accent-color);
+    color: white !important;
+}
+
+.hero-btn.primary:hover {
+    background: #d97706;
+    border-color: #d97706;
+    box-shadow: 0 5px 15px rgba(245, 158, 11, 0.4);
+}
+
+/* Asegurar que Font Awesome esté disponible */
+.fas {
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+}
+
+/* Prevenir flash of unstyled content */
+.hero-section * {
+    opacity: 1 !important;
+    visibility: visible !important;
 }

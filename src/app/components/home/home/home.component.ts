@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { PerfumeService } from '../../../services/perfume.service';
 import { Perfume } from '../../../models/perfume.model';
 
@@ -9,172 +9,134 @@ import { Perfume } from '../../../models/perfume.model';
 @Component({
   selector: 'app-home',
   template: `
-    <div class="container">
+    <div class="main-container">
       <!-- Hero Section -->
-      <section class="hero-section bg-gradient text-white py-5">
+      <section class="hero-section">
         <div class="container">
-          <div class="row align-items-center min-vh-50">
-            <div class="col-12 col-lg-6">
-              <h1 class="display-4 fw-bold mb-4">
-                Descubre tu fragancia perfecta
-              </h1>
-              <p class="lead mb-4">
-                Explora nuestra exclusiva colección de perfumes de las mejores marcas del mundo. 
-                Desde fragancias clásicas hasta las últimas tendencias.
-              </p>
-              <div class="d-flex flex-column flex-sm-row gap-3">
-                <a routerLink="/perfumes" class="btn btn-light btn-lg">
-                  Ver Catálogo
-                </a>
-                <a routerLink="/register" class="btn btn-outline-light btn-lg">
-                  Únete Ahora
-                </a>
-              </div>
-            </div>
-            <div class="col-12 col-lg-6 text-center">
-              <img 
-                src="https://via.placeholder.com/500x400?text=Luxury+Perfumes" 
-                alt="Perfumes de lujo" 
-                class="img-fluid rounded shadow">
+          <div class="hero-content">
+            <h1 class="hero-title">
+              Descubre tu fragancia perfecta
+            </h1>
+            <p class="hero-subtitle">
+              Explora nuestra exclusiva colección de perfumes de las mejores marcas del mundo. 
+              Desde fragancias clásicas hasta las últimas tendencias.
+            </p>
+            <div class="hero-buttons">
+              <a routerLink="/perfumes" class="hero-btn primary">
+                Ver Catálogo
+              </a>
+              <a routerLink="/register" class="hero-btn">
+                Únete Ahora
+              </a>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- Features Section -->
-      <section class="py-5">
+      <section class="why-choose-section">
         <div class="container">
-          <div class="row text-center mb-5">
-            <div class="col-12">
-              <h2 class="h1 mb-4">¿Por qué elegir LePerfum?</h2>
-              <p class="lead text-muted">
-                La mejor experiencia en perfumes online
+          <h2 class="section-title">¿Por qué elegir LePerfum?</h2>
+          <p class="section-subtitle">
+            La mejor experiencia en perfumes online
+          </p>
+          
+          <div class="features-grid">
+            <div class="feature-card">
+              <div class="feature-icon">
+                <i class="fas fa-shipping-fast"></i>
+              </div>
+              <h4 class="feature-title">Envío Rápido</h4>
+              <p class="feature-description">
+                Entrega en 24-48 horas en toda la región metropolitana
               </p>
             </div>
-          </div>
-          
-          <div class="row g-4">
-            <div class="col-12 col-md-4">
-              <div class="card border-0 h-100 text-center">
-                <div class="card-body p-4">
-                  <div class="feature-icon mb-3">
-                    <i class="fas fa-shipping-fast fa-3x text-primary"></i>
-                  </div>
-                  <h4>Envío Rápido</h4>
-                  <p class="text-muted">
-                    Entrega en 24-48 horas en toda la región metropolitana
-                  </p>
-                </div>
+            
+            <div class="feature-card">
+              <div class="feature-icon">
+                <i class="fas fa-award"></i>
               </div>
+              <h4 class="feature-title">Productos Originales</h4>
+              <p class="feature-description">
+                100% originales con garantía de autenticidad
+              </p>
             </div>
             
-            <div class="col-12 col-md-4">
-              <div class="card border-0 h-100 text-center">
-                <div class="card-body p-4">
-                  <div class="feature-icon mb-3">
-                    <i class="fas fa-award fa-3x text-primary"></i>
-                  </div>
-                  <h4>Productos Originales</h4>
-                  <p class="text-muted">
-                    100% originales con garantía de autenticidad
-                  </p>
-                </div>
+            <div class="feature-card">
+              <div class="feature-icon">
+                <i class="fas fa-headset"></i>
               </div>
-            </div>
-            
-            <div class="col-12 col-md-4">
-              <div class="card border-0 h-100 text-center">
-                <div class="card-body p-4">
-                  <div class="feature-icon mb-3">
-                    <i class="fas fa-headset fa-3x text-primary"></i>
-                  </div>
-                  <h4>Atención 24/7</h4>
-                  <p class="text-muted">
-                    Soporte personalizado cuando lo necesites
-                  </p>
-                </div>
-              </div>
+              <h4 class="feature-title">Atención 24/7</h4>
+              <p class="feature-description">
+                Soporte personalizado cuando lo necesites
+              </p>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- Featured Products -->
-      <section class="py-5 bg-light">
+      <section class="main-section">
         <div class="container">
-          <div class="row mb-5">
-            <div class="col-12 text-center">
-              <h2 class="h1 mb-4">Perfumes Destacados</h2>
-              <p class="lead text-muted">
-                Los favoritos de nuestros clientes
-              </p>
-            </div>
-          </div>
+          <h2 class="section-title">Perfumes Destacados</h2>
+          <p class="section-subtitle">
+            Los favoritos de nuestros clientes
+          </p>
           
-          <div class="row g-4" *ngIf="featuredPerfumes.length > 0">
-            <div class="col-12 col-sm-6 col-lg-4" *ngFor="let perfume of featuredPerfumes">
-              <div class="card h-100 shadow-sm">
+          <div class="products-grid" *ngIf="featuredPerfumes.length > 0">
+            <div class="product-card" *ngFor="let perfume of featuredPerfumes">
+              <div class="product-image">
                 <img 
                   [src]="perfume.image" 
-                  [alt]="perfume.name"
-                  class="card-img-top"
-                  style="height: 250px; object-fit: cover;">
-                <div class="card-body d-flex flex-column">
-                  <h5 class="card-title">{{ perfume.name }}</h5>
-                  <p class="text-muted mb-2">{{ perfume.brand }}</p>
-                  <p class="card-text flex-grow-1">{{ perfume.description }}</p>
-                  
-                  <div class="d-flex justify-content-between align-items-center mt-3">
-                    <div class="price">
-                      <span class="h5 text-primary fw-bold">\${{ perfume.price }}</span>
-                    </div>
-                    <div class="rating">
-                      <span class="text-warning">
-                        <i class="fas fa-star" *ngFor="let star of getStars(perfume.rating)"></i>
-                      </span>
-                      <small class="text-muted ms-1">{{ perfume.rating }}</small>
-                    </div>
+                  [alt]="perfume.name">
+              </div>
+              <div class="product-info">
+                <h5 class="product-title">{{ perfume.name }}</h5>
+                <p class="product-brand">{{ perfume.brand }}</p>
+                <p class="product-price">{{ perfume.price }}</p>
+                
+                <div class="product-actions">
+                  <div class="product-rating">
+                    <i class="fas fa-star" *ngFor="let star of getStars(perfume.rating)"></i>
+                    <span class="rating-text">{{ perfume.rating }}</span>
                   </div>
-                  
-                  <button class="btn btn-primary mt-3">
+                  <button class="btn btn-primary">
                     Ver Detalles
                   </button>
                 </div>
               </div>
             </div>
           </div>
+          
+          <div *ngIf="featuredPerfumes.length === 0" class="loading">
+            <div class="spinner"></div>
+          </div>
         </div>
       </section>
 
-      <!-- Newsletter Section -->
-      <section class="py-5 bg-primary text-white">
+      <section class="hero-section" style="padding: 60px 0;">
         <div class="container">
-          <div class="row justify-content-center text-center">
-            <div class="col-12 col-lg-8">
-              <h2 class="h1 mb-4">Mantente al día</h2>
-              <p class="lead mb-4">
-                Suscríbete a nuestro newsletter y recibe ofertas exclusivas y noticias sobre nuevas fragancias
-              </p>
-              
-              <form class="row g-3 justify-content-center">
-                <div class="col-12 col-md-6">
-                  <input 
-                    type="email" 
-                    class="form-control form-control-lg"
-                    placeholder="Tu correo electrónico">
-                </div>
-                <div class="col-12 col-md-auto">
-                  <button type="submit" class="btn btn-light btn-lg">
-                    Suscribirse
-                  </button>
-                </div>
+          <div class="hero-content">
+            <h2 class="hero-title" style="font-size: 2.5rem;">Mantente al día</h2>
+            <p class="hero-subtitle">
+              Suscríbete a nuestro newsletter y recibe ofertas exclusivas y noticias sobre nuevas fragancias
+            </p>
+            
+            <div class="search-container">
+              <form class="search-form">
+                <input 
+                  type="email" 
+                  class="search-input"
+                  placeholder="Tu correo electrónico">
+                <button type="submit" class="search-btn">
+                  Suscribirse
+                </button>
               </form>
             </div>
           </div>
         </div>
       </section>
     </div>
-  `
+  `,
+  encapsulation: ViewEncapsulation.None
 })
 export class HomeComponent implements OnInit {
   featuredPerfumes: Perfume[] = [];
