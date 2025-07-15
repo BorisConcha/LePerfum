@@ -10,7 +10,6 @@ h1 {
   margin-bottom: 30px;
 }
 
-/* Alertas */
 .alert {
   padding: 15px;
   margin-bottom: 20px;
@@ -23,7 +22,6 @@ h1 {
   color: #721c24;
 }
 
-/* Controles superiores */
 .controls-section {
   margin-bottom: 30px;
 }
@@ -53,7 +51,6 @@ h1 {
   gap: 10px;
 }
 
-/* Botones */
 .btn {
   padding: 10px 20px;
   border: none;
@@ -116,7 +113,6 @@ h1 {
   color: #333;
 }
 
-/* Loading */
 .loading {
   text-align: center;
   padding: 40px;
@@ -137,7 +133,6 @@ h1 {
   100% { transform: rotate(360deg); }
 }
 
-/* Modal */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -174,7 +169,6 @@ h1 {
   color: #333;
 }
 
-/* Formulario */
 .perfume-form {
   padding: 20px;
 }
@@ -229,7 +223,6 @@ h1 {
   border-top: 1px solid #eee;
 }
 
-/* Grid de perfumes */
 .perfumes-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -319,7 +312,6 @@ h1 {
   font-size: 12px;
 }
 
-/* No results */
 .no-results {
   text-align: center;
   padding: 40px;
@@ -331,7 +323,6 @@ h1 {
   margin: 0;
 }
 
-/* Responsive */
 @media (max-width: 768px) {
   .perfume-container {
     padding: 10px;
