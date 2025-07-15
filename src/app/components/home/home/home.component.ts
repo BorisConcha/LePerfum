@@ -132,6 +132,9 @@ import { Perfume } from '../../../models/perfume.model';
   encapsulation: ViewEncapsulation.None
 })
 export class HomeComponent implements OnInit {
+  perfume(perfume: any) {
+    throw new Error('Method not implemented.');
+  }
   featuredPerfumes: Perfume[] = [];
 
   constructor(private perfumeService: PerfumeService) {}
