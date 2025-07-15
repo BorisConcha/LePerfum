@@ -1,9 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { of, throwError } from 'rxjs';
 import { PerfumeListComponent } from './perfume-list.component';
 import { PerfumeService } from '../../services/perfume.service';
 import { Perfume, PerfumeRequest } from '../../models/perfume.model';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('PerfumeListComponent', () => {
   let component: PerfumeListComponent;
@@ -46,8 +47,8 @@ describe('PerfumeListComponent', () => {
     categoria: 'Unisex',
     imagen: 'default-perfume.webp',
     stock: 15,
-    fechaCreacion: '01/01/2025',
-    rating: 5
+    fechaCreacion: new Date().toLocaleDateString('es-ES'),
+    rating: 0
   };
 
   beforeEach(async () => {
@@ -62,18 +63,18 @@ describe('PerfumeListComponent', () => {
 
     await TestBed.configureTestingModule({
       declarations: [PerfumeListComponent],
-      imports: [ReactiveFormsModule],
+      imports: [ReactiveFormsModule,FormsModule],
       providers: [
         FormBuilder,
         { provide: PerfumeService, useValue: spy }
-      ]
+      ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
 
     fixture = TestBed.createComponent(PerfumeListComponent);
     component = fixture.componentInstance;
     mockPerfumeService = TestBed.inject(PerfumeService) as jasmine.SpyObj<PerfumeService>;
     
-    // Configurar el mock para getPerfumes por defecto
     mockPerfumeService.getPerfumes.and.returnValue(of(mockPerfumes));
   });
 
@@ -106,6 +107,8 @@ describe('PerfumeListComponent', () => {
       expect(component.perfumeForm.get('categoria')).toBeDefined();
       expect(component.perfumeForm.get('imagen')).toBeDefined();
       expect(component.perfumeForm.get('stock')).toBeDefined();
+      expect(component.perfumeForm.get('fechaCreacion')).toBeDefined();
+      expect(component.perfumeForm.get('rating')).toBeDefined();
     });
   });
 
@@ -145,7 +148,7 @@ describe('PerfumeListComponent', () => {
     it('should create perfume successfully when form is valid', () => {
       const newPerfume = { ...mockPerfumeRequest, id: 3 };
       mockPerfumeService.createPerfume.and.returnValue(of(newPerfume));
-      spyOn(component, 'loadPerfumes'); // Spy en loadPerfumes
+      spyOn(component, 'loadPerfumes');
       
       component.createPerfume();
       

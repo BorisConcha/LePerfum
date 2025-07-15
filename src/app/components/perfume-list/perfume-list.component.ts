@@ -78,7 +78,11 @@ export class PerfumeListComponent implements OnInit, OnDestroy {
   createPerfume(): void {
     if (this.perfumeForm.valid) {
       this.loading = true;
-      const perfumeData: PerfumeRequest = this.perfumeForm.value;
+      const perfumeData: PerfumeRequest = {
+        ...this.perfumeForm.value,
+        fechaCreacion: new Date().toLocaleDateString('es-ES'),
+        rating: 0
+      };
 
       this.perfumeService.createPerfume(perfumeData)
         .pipe(takeUntil(this.destroy$))
@@ -250,7 +254,7 @@ export class PerfumeListComponent implements OnInit, OnDestroy {
   onImageError(event: Event): void {
     const target = event.target as HTMLImageElement;
     if (target) {
-      target.src = 'assets/images/default-perfume.jpg';
+      target.src = 'assets/images/default-perfume.webp';
     }
   }
 }

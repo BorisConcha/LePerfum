@@ -61,7 +61,7 @@ export class PerfumeDetailComponent implements OnInit, OnDestroy {
             precio: 50.00,
             categoria: 'Unisex',
             stock: 15,
-            imagen: 'assets/images/default-perfume.jpg',
+            imagen: 'assets/images/default-perfume.webp',
             descripcion: 'Descripción del perfume de ejemplo',
             fechaCreacion: "2024-01-15",
             rating: 5
@@ -78,7 +78,7 @@ export class PerfumeDetailComponent implements OnInit, OnDestroy {
     onImageError(event: Event): void {
         const target = event.target as HTMLImageElement;
         if (target) {
-          target.src = 'assets/images/default-perfume.jpg';
+          target.src = 'assets/images/default-perfume.webp';
         }
     }
 
