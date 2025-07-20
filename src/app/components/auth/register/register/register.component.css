@@ -1,0 +1,301 @@
+/* ========================================
+   CONTENEDOR PRINCIPAL
+======================================== */
+.register-container {
+  margin-top: 80px;
+  min-height: calc(100vh - 80px);
+}
+
+/* ========================================
+   CARD Y ESTRUCTURA
+======================================== */
+.card {
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1) !important;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15) !important;
+}
+
+.card-body {
+  padding: 2.5rem !important;
+}
+
+/* ========================================
+   HEADER DEL FORMULARIO
+======================================== */
+.register-title {
+  color: #2c3e50;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.register-subtitle {
+  font-size: 1.1rem;
+  color: #6c757d !important;
+}
+
+/* ========================================
+   FORMULARIO Y CAMPOS
+======================================== */
+.form-label {
+  font-weight: 500;
+  color: #495057;
+  margin-bottom: 0.5rem;
+}
+
+.form-control {
+  border: 1.5px solid #e9ecef;
+  border-radius: 10px;
+  padding: 0.75rem 1rem;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+}
+
+.form-control:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.15);
+  transform: translateY(-1px);
+}
+
+.form-control.is-invalid {
+  border-color: #dc3545;
+  background-image: none;
+}
+
+.form-control.is-valid {
+  border-color: #28a745;
+  background-image: none;
+}
+
+/* ========================================
+   VALIDACIÓN Y MENSAJES DE ERROR
+======================================== */
+.invalid-feedback {
+  display: block;
+  font-size: 0.875rem;
+  color: #dc3545;
+  margin-top: 0.25rem;
+}
+
+/* ========================================
+   REQUISITOS DE CONTRASEÑA
+======================================== */
+.password-requirements {
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-top: 0.5rem;
+  border-left: 4px solid #007bff;
+}
+
+.password-list {
+  margin-bottom: 0;
+  margin-top: 0.5rem;
+}
+
+.password-list li {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.25rem;
+  padding: 0.2rem 0;
+  transition: all 0.2s ease;
+}
+
+.requirement-icon {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  margin-right: 0.5rem;
+  font-weight: bold;
+  text-align: center;
+}
+
+.password-list li.text-success .requirement-icon {
+  color: #28a745;
+}
+
+.password-list li.text-danger .requirement-icon {
+  color: #dc3545;
+}
+
+/* ========================================
+   CHECKBOX Y TÉRMINOS
+======================================== */
+.form-check {
+  display: flex;
+  align-items: flex-start;
+  padding: 0;
+}
+
+.form-check-input {
+  margin-right: 0.5rem;
+  margin-top: 0.25rem;
+}
+
+.form-check-label {
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.terms-link {
+  color: #007bff;
+  font-weight: 500;
+}
+
+.terms-link:hover {
+  color: #0056b3;
+  text-decoration: underline !important;
+}
+
+/* ========================================
+   BOTONES
+======================================== */
+.submit-btn {
+  background: linear-gradient(45deg, #007bff, #0056b3);
+  border: none;
+  border-radius: 10px;
+  padding: 0.875rem 1.5rem;
+  font-weight: 500;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.submit-btn:hover:not(:disabled) {
+  background: linear-gradient(45deg, #0056b3, #004085);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 123, 255, 0.3);
+}
+
+.submit-btn:disabled {
+  background: #6c757d;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.btn-outline-primary {
+  border: 2px solid #007bff;
+  color: #007bff;
+  border-radius: 10px;
+  padding: 0.5rem 1.5rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.btn-outline-primary:hover {
+  background-color: #007bff;
+  border-color: #007bff;
+  color: white;
+  transform: translateY(-1px);
+}
+
+/* ========================================
+   SECCIÓN DE LOGIN
+======================================== */
+.login-link-section {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #e9ecef;
+}
+
+.login-link-section p {
+  color: #6c757d;
+  margin-bottom: 1rem;
+}
+
+/* ========================================
+   LOADING SPINNER
+======================================== */
+.spinner-border-sm {
+  width: 1rem;
+  height: 1rem;
+}
+
+/* ========================================
+   RESPONSIVE DESIGN
+======================================== */
+@media (max-width: 768px) {
+  .register-container {
+    margin-top: 70px;
+    padding: 1rem;
+  }
+  
+  .card-body {
+    padding: 1.5rem !important;
+  }
+  
+  .register-title {
+    font-size: 1.5rem;
+  }
+  
+  .col-md-6 {
+    margin-bottom: 1rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .register-container {
+    padding: 0.5rem;
+  }
+  
+  .card-body {
+    padding: 1rem !important;
+  }
+  
+  .password-requirements {
+    padding: 0.75rem;
+  }
+}
+
+/* ========================================
+   ANIMACIONES
+======================================== */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.card {
+  animation: fadeIn 0.6s ease-out;
+}
+
+/* ========================================
+   MEJORAS ADICIONALES
+======================================== */
+.form-control::placeholder {
+  color: #adb5bd;
+  opacity: 1;
+}
+
+/* Focus states mejorados */
+.form-check-input:focus {
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+/* Estados hover para mejor UX */
+.form-control:hover:not(:focus) {
+  border-color: #ced4da;
+}
+
+/* Estilos para validación exitosa */
+.form-control:valid:not(.is-invalid) {
+  border-color: #28a745;
+}
+
+.form-control:valid:not(.is-invalid):focus {
+  border-color: #28a745;
+  box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.15);
+}

@@ -1,0 +1,122 @@
+/* Estilos principales del navbar */
+.navbar {
+  min-height: 70px;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.95) !important;
+}
+
+/* Estilos del brand/logo */
+.navbar-brand {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+/* Estilos de los links de navegación */
+.nav-link {
+  font-weight: 500;
+  transition: all 0.3s ease;
+  text-decoration: none !important;
+}
+
+.nav-link:hover {
+  transform: translateY(-1px);
+}
+
+/* Links activos */
+.navbar-nav .nav-item .nav-link.active {
+  font-weight: 600;
+}
+
+/* Estilos para botones que son nav-links */
+.btn.nav-link {
+  border: 1px solid transparent;
+  margin: 0 2px;
+}
+
+.btn.nav-link:hover {
+  border-color: var(--bs-primary);
+}
+
+/* Estilos del dropdown */
+.dropdown-menu {
+  border-radius: 12px;
+  padding: 8px 0;
+}
+
+.dropdown-item {
+  border-radius: 8px;
+  margin: 2px 8px;
+  transition: all 0.2s ease;
+}
+
+.dropdown-item:hover {
+  background-color: var(--bs-primary);
+  color: white !important;
+}
+
+.dropdown-item:hover i {
+  color: white !important;
+}
+
+/* Remover focus del botón toggle */
+.navbar-toggler:focus {
+  box-shadow: none;
+}
+
+/* Estilos responsive */
+@media (max-width: 991.98px) {
+  .navbar-nav {
+    padding: 1rem 0;
+  }
+  
+  .navbar-nav .nav-item {
+    margin: 2px 0;
+  }
+  
+  .btn.nav-link {
+    text-align: center;
+    margin: 4px 0;
+  }
+}
+
+/* Smooth scrolling offset para navbar fijo */
+:host {
+  scroll-padding-top: 70px;
+}
+
+/* Animaciones adicionales */
+.navbar-nav .nav-item {
+  position: relative;
+}
+
+.navbar-nav .nav-item .nav-link::before {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: 0;
+  left: 50%;
+  background-color: var(--bs-primary);
+  transition: all 0.3s ease;
+  transform: translateX(-50%);
+}
+
+.navbar-nav .nav-item .nav-link:hover::before,
+.navbar-nav .nav-item .nav-link.active::before {
+  width: 80%;
+}
+
+/* Mejoras visuales para iconos */
+.fas {
+  transition: all 0.3s ease;
+}
+
+.nav-link:hover .fas {
+  transform: scale(1.1);
+}
+
+/* Estilo para el contenedor de autenticación */
+.navbar-nav.ms-auto .nav-item:not(:last-child) {
+  margin-right: 0.5rem;
+}

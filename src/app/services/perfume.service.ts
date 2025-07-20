@@ -11,7 +11,7 @@ export class PerfumeService {
   // private readonly JSON_URL = 'assets/data/perfumes.json';
   private readonly JSON_URL = 'https://borisconcha.github.io/json-perfumes-api/perfumes.json';
   private perfumesSubject = new BehaviorSubject<Perfume[]>([]);
-  private nextId = 6; // Para generar IDs únicos
+  private nextId = 6;
 
   constructor(private http: HttpClient) {
     this.loadInitialData();

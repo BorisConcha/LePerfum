@@ -20,15 +20,18 @@ export function strongPasswordValidator(): ValidatorFn {
 
     const passwordValid = hasNumber && hasUpper && hasLower && hasSpecial && hasMinLength && hasMaxLength;
 
+    // Siempre devolvemos el estado de cada validación para mostrar el feedback visual
+    const validationState = {
+      hasNumber,
+      hasUpper,
+      hasLower,
+      hasSpecial,
+      hasMinLength,
+      hasMaxLength
+    };
+
     return passwordValid ? null : {
-      strongPassword: {
-        hasNumber,
-        hasUpper,
-        hasLower,
-        hasSpecial,
-        hasMinLength,
-        hasMaxLength
-      }
+      strongPassword: validationState
     };
   };
 }
@@ -39,176 +42,13 @@ export function strongPasswordValidator(): ValidatorFn {
  */
 @Component({
   selector: 'app-register',
-  template: `
-    <div class="container py-5">
-      <div class="row justify-content-center">
-        <div class="col-12 col-md-8 col-lg-6">
-          <div class="card shadow">
-            <div class="card-body p-4">
-              <div class="text-center mb-4">
-                <h2>Crear Cuenta</h2>
-                <p class="text-muted">Únete a LePerfum</p>
-              </div>
-
-              <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-                <div class="row">
-                  <div class="col-md-6 mb-3">
-                    <label for="firstName" class="form-label">Nombre</label>
-                    <input 
-                      type="text" 
-                      class="form-control"
-                      [class.is-invalid]="isFieldInvalid('firstName')"
-                      id="firstName" 
-                      formControlName="firstName"
-                      placeholder="Tu nombre">
-                    <div class="invalid-feedback">
-                      El nombre es requerido
-                    </div>
-                  </div>
-
-                  <div class="col-md-6 mb-3">
-                    <label for="lastName" class="form-label">Apellido</label>
-                    <input 
-                      type="text" 
-                      class="form-control"
-                      [class.is-invalid]="isFieldInvalid('lastName')"
-                      id="lastName" 
-                      formControlName="lastName"
-                      placeholder="Tu apellido">
-                    <div class="invalid-feedback">
-                      El apellido es requerido
-                    </div>
-                  </div>
-                </div>
-
-                <div class="mb-3">
-                  <label for="email" class="form-label">Correo electrónico</label>
-                  <input 
-                    type="email" 
-                    class="form-control"
-                    [class.is-invalid]="isFieldInvalid('email')"
-                    id="email" 
-                    formControlName="email"
-                    placeholder="tu@email.com">
-                  <div class="invalid-feedback">
-                    <div *ngIf="registerForm.get('email')?.errors?.['required']">
-                      El correo es requerido
-                    </div>
-                    <div *ngIf="registerForm.get('email')?.errors?.['email']">
-                      Formato de correo inválido
-                    </div>
-                  </div>
-                </div>
-
-                <div class="mb-3">
-                  <label for="phone" class="form-label">Teléfono</label>
-                  <input 
-                    type="tel" 
-                    class="form-control"
-                    [class.is-invalid]="isFieldInvalid('phone')"
-                    id="phone" 
-                    formControlName="phone"
-                    placeholder="+56 9 1234 5678">
-                  <div class="invalid-feedback">
-                    Formato de teléfono inválido
-                  </div>
-                </div>
-
-                <div class="mb-3">
-                  <label for="password" class="form-label">Contraseña</label>
-                  <input 
-                    type="password" 
-                    class="form-control"
-                    [class.is-invalid]="isFieldInvalid('password')"
-                    id="password" 
-                    formControlName="password"
-                    placeholder="Tu contraseña">
-                  
-                  <div class="password-requirements mt-2" *ngIf="registerForm.get('password')?.errors?.['strongPassword']">
-                    <small class="text-muted">La contraseña debe contener:</small>
-                    <ul class="list-unstyled small">
-                      <li [class.text-success]="!registerForm.get('password')?.errors?.['strongPassword']?.hasMinLength" 
-                          [class.text-danger]="registerForm.get('password')?.errors?.['strongPassword']?.hasMinLength">
-                        ✓ Mínimo 8 caracteres
-                      </li>
-                      <li [class.text-success]="registerForm.get('password')?.errors?.['strongPassword']?.hasMaxLength" 
-                          [class.text-danger]="!registerForm.get('password')?.errors?.['strongPassword']?.hasMaxLength">
-                        ✓ Máximo 20 caracteres
-                      </li>
-                      <li [class.text-success]="registerForm.get('password')?.errors?.['strongPassword']?.hasNumber" 
-                          [class.text-danger]="!registerForm.get('password')?.errors?.['strongPassword']?.hasNumber">
-                        ✓ Al menos un número
-                      </li>
-                      <li [class.text-success]="registerForm.get('password')?.errors?.['strongPassword']?.hasUpper" 
-                          [class.text-danger]="!registerForm.get('password')?.errors?.['strongPassword']?.hasUpper">
-                        ✓ Al menos una mayúscula
-                      </li>
-                      <li [class.text-success]="registerForm.get('password')?.errors?.['strongPassword']?.hasLower" 
-                          [class.text-danger]="!registerForm.get('password')?.errors?.['strongPassword']?.hasLower">
-                        ✓ Al menos una minúscula
-                      </li>
-                      <li [class.text-success]="registerForm.get('password')?.errors?.['strongPassword']?.hasSpecial" 
-                          [class.text-danger]="!registerForm.get('password')?.errors?.['strongPassword']?.hasSpecial">
-                        ✓ Al menos un carácter especial
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-
-                <div class="mb-3">
-                  <label for="confirmPassword" class="form-label">Confirmar Contraseña</label>
-                  <input 
-                    type="password" 
-                    class="form-control"
-                    [class.is-invalid]="isFieldInvalid('confirmPassword')"
-                    id="confirmPassword" 
-                    formControlName="confirmPassword"
-                    placeholder="Confirma tu contraseña">
-                  <div class="invalid-feedback">
-                    Las contraseñas no coinciden
-                  </div>
-                </div>
-
-                <div class="mb-3 form-check">
-                  <input 
-                    type="checkbox" 
-                    class="form-check-input"
-                    [class.is-invalid]="isFieldInvalid('acceptTerms')"
-                    id="acceptTerms"
-                    formControlName="acceptTerms">
-                  <label class="form-check-label" for="acceptTerms">
-                    Acepto los <a href="#" class="text-decoration-none">términos y condiciones</a>
-                  </label>
-                  <div class="invalid-feedback">
-                    Debes aceptar los términos y condiciones
-                  </div>
-                </div>
-
-                <button 
-                  type="submit" 
-                  class="btn btn-primary w-100 mb-3"
-                  [disabled]="registerForm.invalid || loading">
-                  <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
-                  {{ loading ? 'Creando cuenta...' : 'Crear Cuenta' }}
-                </button>
-              </form>
-
-              <div class="text-center">
-                <p class="mb-0">¿Ya tienes cuenta?</p>
-                <a routerLink="/login" class="btn btn-outline-primary">
-                  Iniciar Sesión
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  `
+  templateUrl: './register.component.html',
+  styleUrls: ['./register.component.css']
 })
 export class RegisterComponent implements OnInit {
   registerForm!: FormGroup;
   loading = false;
+  submitted = false; // Nueva propiedad para controlar si se ha enviado el formulario
 
   constructor(
     private fb: FormBuilder,
@@ -238,30 +78,94 @@ export class RegisterComponent implements OnInit {
   /**
    * Validador para verificar que las contraseñas coincidan
    */
-  private passwordMatchValidator(form: AbstractControl): ValidationErrors | null {
+  private passwordMatchValidator = (form: AbstractControl): ValidationErrors | null => {
     const password = form.get('password')?.value;
     const confirmPassword = form.get('confirmPassword')?.value;
     
     if (password && confirmPassword && password !== confirmPassword) {
-      form.get('confirmPassword')?.setErrors({ passwordMismatch: true });
+      // Solo establecer el error en confirmPassword si tiene valor
+      const confirmPasswordControl = form.get('confirmPassword');
+      if (confirmPasswordControl && confirmPasswordControl.value) {
+        confirmPasswordControl.setErrors({ passwordMismatch: true });
+      }
       return { passwordMismatch: true };
+    } else {
+      // Limpiar el error de passwordMismatch si las contraseñas coinciden
+      const confirmPasswordControl = form.get('confirmPassword');
+      if (confirmPasswordControl && confirmPasswordControl.errors?.['passwordMismatch']) {
+        delete confirmPasswordControl.errors['passwordMismatch'];
+        if (Object.keys(confirmPasswordControl.errors).length === 0) {
+          confirmPasswordControl.setErrors(null);
+        }
+      }
     }
     
     return null;
   }
 
   /**
-   * Verifica si un campo es inválido y ha sido tocado
+   * Verifica si un campo es inválido y debe mostrar el error
    */
   isFieldInvalid(fieldName: string): boolean {
     const field = this.registerForm.get(fieldName);
-    return !!(field && field.invalid && (field.dirty || field.touched));
+    return !!(field && field.invalid && (field.dirty || field.touched || this.submitted));
+  }
+
+  /**
+   * Verifica si debe mostrar un error específico para un campo
+   */
+  shouldShowError(fieldName: string, errorType: string): boolean {
+    const field = this.registerForm.get(fieldName);
+    return !!(field && field.errors?.[errorType] && (field.dirty || field.touched || this.submitted));
+  }
+
+  /**
+   * Obtiene los errores de la validación de contraseña fuerte
+   */
+  getPasswordErrors(): any {
+    const passwordControl = this.registerForm.get('password');
+    if (!passwordControl?.value) {
+      // Si no hay valor, devolvemos un objeto con todos false
+      return {
+        hasNumber: false,
+        hasUpper: false,
+        hasLower: false,
+        hasSpecial: false,
+        hasMinLength: false,
+        hasMaxLength: false
+      };
+    }
+    
+    // Si hay errores de strongPassword, los devolvemos
+    if (passwordControl.errors?.['strongPassword']) {
+      return passwordControl.errors['strongPassword'];
+    }
+    
+    // Si no hay errores, significa que todos los criterios se cumplen
+    return {
+      hasNumber: true,
+      hasUpper: true,
+      hasLower: true,
+      hasSpecial: true,
+      hasMinLength: true,
+      hasMaxLength: true
+    };
+  }
+
+  /**
+   * Verifica si debe mostrar las reglas de contraseña
+   */
+  shouldShowPasswordRules(): boolean {
+    const passwordControl = this.registerForm.get('password');
+    return !!(passwordControl && passwordControl.value && (passwordControl.dirty || passwordControl.touched || this.submitted));
   }
 
   /**
    * Maneja el envío del formulario
    */
   onSubmit(): void {
+    this.submitted = true; // Marcar como enviado para mostrar errores
+    
     if (this.registerForm.valid) {
       this.loading = true;
       
@@ -278,6 +182,26 @@ export class RegisterComponent implements OnInit {
           alert('Error al registrar usuario');
         }
       });
+    } else {
+      // Marcar todos los campos como touched para mostrar errores
+      this.markFormGroupTouched();
     }
+  }
+
+  /**
+   * Marca todos los campos del formulario como touched
+   */
+  private markFormGroupTouched(): void {
+    Object.keys(this.registerForm.controls).forEach(key => {
+      const control = this.registerForm.get(key);
+      control?.markAsTouched();
+    });
+  }
+
+  /**
+   * Resetea el estado de envío del formulario
+   */
+  resetSubmitted(): void {
+    this.submitted = false;
   }
 }

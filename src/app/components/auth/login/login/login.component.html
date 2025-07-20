@@ -1,1 +1,89 @@
-<p>login works!</p>
+<!-- Contenido principal -->
+<div class="login-page">
+  <div class="container">
+    <div class="row justify-content-center align-items-center min-vh-100">
+      <!-- Columna del formulario centrada -->
+      <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+        <div class="login-form">
+          <div class="text-center mb-4">
+            <h2 class="text-primary fw-bold">LePerfum</h2>
+            <p class="text-muted">Inicia sesión en tu cuenta</p>
+          </div>
+          
+          <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="needs-validation" novalidate>
+            <div class="mb-3">
+              <label for="email" class="form-label">Correo electrónico</label>
+              <input 
+                type="email" 
+                class="form-control form-control-lg"
+                [class.is-invalid]="isFieldInvalid('email')"
+                id="email" 
+                formControlName="email"
+                placeholder="tu@email.com">
+              <div class="invalid-feedback">
+                <div *ngIf="loginForm.get('email')?.errors?.['required']">
+                  El correo es requerido
+                </div>
+                <div *ngIf="loginForm.get('email')?.errors?.['email']">
+                  Formato de correo inválido
+                </div>
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="password" class="form-label">Contraseña</label>
+              <input 
+                type="password" 
+                class="form-control form-control-lg"
+                [class.is-invalid]="isFieldInvalid('password')"
+                id="password" 
+                formControlName="password"
+                placeholder="Tu contraseña">
+              <div class="invalid-feedback">
+                <div *ngIf="loginForm.get('password')?.errors?.['required']">
+                  La contraseña es requerida
+                </div>
+                <div *ngIf="loginForm.get('password')?.errors?.['minlength']">
+                  Mínimo 6 caracteres
+                </div>
+              </div>
+            </div>
+
+            <div class="mb-4 form-check">
+              <input type="checkbox" class="form-check-input" id="rememberMe">
+              <label class="form-check-label" for="rememberMe">
+                Recordarme
+              </label>
+            </div>
+
+            <div class="d-grid mb-4">
+              <button 
+                type="submit" 
+                class="btn btn-primary btn-lg"
+                [disabled]="loginForm.invalid || loading">
+                <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
+                {{ loading ? 'Iniciando...' : 'Iniciar Sesión' }}
+              </button>
+            </div>
+
+            <div class="text-center mb-4">
+              <a routerLink="/forgot-password" class="text-decoration-none text-primary">
+                ¿Olvidaste tu contraseña?
+              </a>
+            </div>
+          </form>
+
+          <hr class="my-4">
+          
+          <div class="text-center">
+            <p class="mb-2 text-muted">¿No tienes cuenta? 
+              <a routerLink="/register" class="text-decoration-none text-primary">
+                Registrarse
+              </a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
