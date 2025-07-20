@@ -55,7 +55,7 @@
              routerLink="/register">
             Registrarse
           </a>
-          <a class="nav-link px-3 py-2 rounded-pill mx-1 d-flex align-items-center"
+          <!-- <a class="nav-link px-3 py-2 rounded-pill mx-1 d-flex align-items-center"
              *ngIf="isAuthenticated" 
              href="#" 
              id="navbarDropdown" 
@@ -63,7 +63,7 @@
              data-bs-toggle="dropdown" 
              aria-expanded="false">
             <span>{{ currentUser?.firstName || 'Usuario' }}</span>
-          </a>
+          </a> -->
           <a class="nav-link px-3 py-2 rounded-pill mx-1 text-danger" *ngIf="isAuthenticated" href="#" (click)="logout($event)">
             Cerrar Sesión
           </a>
